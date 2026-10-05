@@ -30,7 +30,8 @@
       <div class="site-links" id="site-links">
         <a href="#overview">Overview</a>
         <a href="#projects">Projects</a>
-        <a href="#cte-3d">3D concept</a>
+        <a href="#wes-3d">Elementary 3D</a>
+        <a href="#cte-3d">CTE 3D</a>
         <a href="#tax-impact">Tax impact</a>
         <a href="#accountability">Accountability</a>
         <a href="#questions">Questions</a>
@@ -116,6 +117,60 @@
             <div class="project-copy"><span class="tag">Learning spaces</span><h3>Existing + conceptual</h3><p>Concepts illustrate potential improvements to lighting, flooring, finishes, furniture flexibility, organization and instructional technology. They are not final room designs or product selections.</p></div>
           </article>
         </div>
+      </div>
+    </section>
+
+
+    <section class="section wes-3d-section" id="wes-3d">
+      <div class="page-width">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow">Elementary safety &amp; security</p><h2>Explore the WES + Annex secure entrance in 3D.</h2></div>
+          <p>This conceptual model is intended to show how a controlled visitor entry and enclosed connection could work. It is not a measured architectural model or approved floor plan.</p>
+        </div>
+
+        <div class="model-shell wes-model-shell">
+          <div class="model-topbar">
+            <div>
+              <strong id="wes-model-label">Proposed secure-entry exterior</strong>
+              <span>Drag to rotate · scroll/pinch to zoom · compare current and proposed conditions.</span>
+            </div>
+            <div class="wes-toggle-stack">
+              <div class="segmented" role="group" aria-label="WES condition">
+                <button type="button" class="wes-state-button" data-wes-state="current" aria-pressed="false">Current</button>
+                <button type="button" class="wes-state-button active" data-wes-state="proposed" aria-pressed="true">Proposed</button>
+              </div>
+              <div class="segmented" role="group" aria-label="WES model mode">
+                <button type="button" class="wes-mode-button active" data-wes-mode="exterior" aria-pressed="true">Exterior</button>
+                <button type="button" class="wes-mode-button" data-wes-mode="interior" aria-pressed="false">Interior cutaway</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="model-stage wes-model-stage" id="wes-model-stage">
+            <img class="model-fallback" src="assets/wes-secure-connection.jpg" alt="Conceptual WES and Annex secure connection" />
+            <canvas id="wes-canvas" aria-label="Interactive three-dimensional concept of the WES and Annex secure entrance"></canvas>
+            <div class="model-loading" id="wes-model-loading">Loading elementary 3D concept…</div>
+          </div>
+
+          <div class="model-controls" aria-label="WES 3D views">
+            <button type="button" data-wes-view="front">Front view</button>
+            <button type="button" data-wes-view="approach">Visitor approach</button>
+            <button type="button" data-wes-view="overhead">Overhead</button>
+            <button type="button" data-wes-view="interior">Security flow</button>
+            <button type="button" data-wes-view="reset">Reset</button>
+            <button type="button" data-wes-zoom="in">Zoom in</button>
+            <button type="button" data-wes-zoom="out">Zoom out</button>
+          </div>
+        </div>
+
+        <div class="program-grid wes-feature-grid">
+          <article><span class="program-number">01</span><h3>Controlled vestibule</h3><p>Visitors enter a defined secure space instead of moving directly into student areas.</p></article>
+          <article><span class="program-number">02</span><h3>Office check-in</h3><p>The concept routes visitors to reception before any controlled interior door is released.</p></article>
+          <article><span class="program-number">03</span><h3>Enclosed connection</h3><p>The link joins the existing elementary building and Annex while keeping movement sheltered and controlled.</p></article>
+          <article><span class="program-number">04</span><h3>Clear sight lines</h3><p>The cutaway illustrates staff visibility of the entry, vestibule and transition into student space.</p></article>
+        </div>
+
+        <p class="fine-print wes-concept-note"><strong>Conceptual visualization:</strong> final dimensions, door locations, glazing, finishes, security hardware and circulation will be determined through architecture, engineering, code review and public project development.</p>
       </div>
     </section>
 
@@ -267,6 +322,7 @@
   </dialog>
 
   <script src="site.js"></script>
+  <script type="module" src="wes-model.js"></script>
   <script type="module" src="model.js"></script>
 </body>
 </html>
