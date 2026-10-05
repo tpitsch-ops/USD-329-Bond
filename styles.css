@@ -72,3 +72,16 @@ button{cursor:pointer}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 /* Preserve the panoramic Junior High facade instead of cropping it into the standard card ratio. */
 .jh-card .image-button img{aspect-ratio:12/5;object-fit:cover;object-position:center center}
+
+
+/* WES secure-entry 3D concept */
+.wes-3d-section{background:linear-gradient(180deg,#eef4f8 0%,#ffffff 100%)}
+.wes-model-shell{border-color:#aebfce}
+.wes-model-stage{background:linear-gradient(#dce8f1,#cbd9e4 64%,#819477 64%)}
+.wes-toggle-stack{display:flex;gap:.55rem;flex-wrap:wrap;justify-content:flex-end}
+.wes-toggle-stack .segmented{white-space:nowrap}
+.wes-feature-grid article:nth-child(1),
+.wes-feature-grid article:nth-child(2){border-top-color:var(--navy)}
+.wes-concept-note{max-width:930px;margin:1.15rem auto 0;text-align:center}
+@media (max-width:900px){.wes-toggle-stack{width:100%;justify-content:flex-start}.wes-toggle-stack .segmented{flex:1}.wes-toggle-stack .segmented button{flex:1}}
+@media (max-width:620px){.wes-toggle-stack{display:grid;grid-template-columns:1fr}.wes-toggle-stack .segmented{width:100%}}
