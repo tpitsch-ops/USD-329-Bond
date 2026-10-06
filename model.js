@@ -99,6 +99,21 @@ const stoneDark = new THREE.MeshStandardMaterial({ map:stoneDarkTexture, color:0
 const roofRed = new THREE.MeshStandardMaterial({ map:roofTexture, color:0xffffff, roughness:0.84 });
 const glass = new THREE.MeshStandardMaterial({ color: 0x183747, roughness: 0.18, metalness: 0.12 });
 const black = new THREE.MeshStandardMaterial({ color: 0x17222b, roughness: 0.68 });
+
+const imageLoader = new THREE.TextureLoader();
+function photoTexture(path, repeatX=1, repeatY=1){
+  const t=imageLoader.load(path);
+  t.colorSpace=THREE.SRGBColorSpace;
+  t.wrapS=t.wrapT=THREE.RepeatWrapping;
+  t.repeat.set(repeatX,repeatY);
+  t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+  return t;
+}
+// Real/reference-derived architectural textures.
+stone.map=photoTexture('./assets/whs-stone-photo.jpg',3.4,2.2); stone.color.set(0xffffff); stone.needsUpdate=true;
+stoneDark.map=photoTexture('./assets/whs-stone-photo.jpg',2.5,2.6); stoneDark.color.set(0xb6aa91); stoneDark.needsUpdate=true;
+roofRed.map=photoTexture('./assets/whs-roof-photo.jpg',4.2,2.0); roofRed.color.set(0xffffff); roofRed.needsUpdate=true;
+
 const school = new THREE.Group();
 scene.add(school);
 
@@ -162,17 +177,17 @@ box(.13,1.55,4.02,stone,-2.80,4.08,1.1,school);
 // and align the CTE north/south ends with the existing high-school footprint.
 const cte = new THREE.Group();
 scene.add(cte);
-const redMetal = new THREE.MeshStandardMaterial({ map:redMetalTexture, color:0xffffff, roughness:.76, metalness:.16 });
+const redMetal = new THREE.MeshStandardMaterial({ map:photoTexture('./assets/cte-red-metal-photo.jpg',3.8,1.25), color:0xffffff, roughness:.74, metalness:.14 });
 const redMetalCut = redMetal.clone(); redMetalCut.transparent = true; redMetalCut.opacity = .28; redMetalCut.depthWrite = false;
 const cteRoofMat = new THREE.MeshStandardMaterial({ color: 0x5d2528, roughness: .8, metalness: .12 });
 const cteDepth = 4.0;
 const cteZ = 1.1;
-const cteFloor = box(6.7,.18,cteDepth,new THREE.MeshStandardMaterial({color:0xc4c5c2,roughness:1}),-6.1,.1,cteZ,cte);
+const cteFloor = box(7.4,.18,cteDepth,new THREE.MeshStandardMaterial({color:0xc4c5c2,roughness:1}),-6.45,.1,cteZ,cte);
 const wallNorth = box(7.4,3.15,.18,redMetal,-6.45,1.67,-0.81,cte);
 const wallSouth = box(7.4,3.15,.18,redMetal,-6.45,1.67,3.01,cte);
-const wallWest = box(.18,3.15,cteDepth,redMetal,-9.36,1.67,cteZ,cte);
+const wallWest = box(.18,3.15,cteDepth,redMetal,-10.06,1.67,cteZ,cte);
 const wallEast = box(.18,3.15,cteDepth,redMetal,-2.84,1.67,cteZ,cte);
-const cteRoof = box(6.95,.3,4.25,cteRoofMat,-6.1,3.37,cteZ,cte);
+const cteRoof = box(7.65,.3,4.25,cteRoofMat,-6.45,3.37,cteZ,cte);
 
 // Overhead doors stay centered on the aligned north and south faces.
 const doorMat = new THREE.MeshStandardMaterial({ color:0xe7e7df,roughness:.65,metalness:.08 });
@@ -193,7 +208,32 @@ function labelTexture(text, fg='#ffffff', bg='#0b2f57'){
   const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; return tex;
 }
 const sign = new THREE.Mesh(new THREE.PlaneGeometry(4.7,.82),new THREE.MeshBasicMaterial({map:labelTexture('WABAUNSEE CHARGERS • CTE'),transparent:false,side:THREE.DoubleSide}));
-sign.position.set(-6.45,2.72,-0.925); sign.rotation.y=Math.PI; cte.add(sign);
+sign.position.set(-6.45,2.72,-1.005); sign.rotation.y=Math.PI; cte.add(sign);
+
+// Reference-façade overlays preserve the stronger prior rendering while the underlying geometry supplies depth.
+// These are mapped onto the actual 3-D building faces, not displayed as separate reference cards.
+function facadePlane(path,w,h,x,y,z,transparent=true){
+  const tex=imageLoader.load(path);
+  tex.colorSpace=THREE.SRGBColorSpace;
+  tex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+  const mat=new THREE.MeshBasicMaterial({map:tex,transparent,alphaTest:transparent?0.03:0,side:THREE.DoubleSide,depthWrite:true});
+  const p=new THREE.Mesh(new THREE.PlaneGeometry(w,h),mat);
+  p.position.set(x,y,z);
+  p.castShadow=false; p.receiveShadow=false;
+  scene.add(p);
+  return p;
+}
+const cteReferenceFacade=facadePlane('./assets/cte-front-reference.png',7.25,3.28,-6.45,1.66,-0.965,true);
+const whsMainReferenceFacade=facadePlane('./assets/whs-main-front.png',8.05,5.85,2.75,2.95,-1.085,true);
+const whsRightReferenceFacade=facadePlane('./assets/whs-right-front.png',3.05,4.85,7.95,2.48,-1.095,true);
+
+// Give the historic right wing and connection side real depth/details when the visitor rotates away from the front view.
+const stairGroup=new THREE.Group(); scene.add(stairGroup);
+for(let i=0;i<9;i++) box(.72,.12,.34,black,8.75,1.02+i*.28,-1.43+i*.18,stairGroup);
+for(const sx of [8.38,9.12]){
+  box(.06,2.65,.06,black,sx,2.05,-.75,stairGroup);
+  const rail=box(.06,.06,2.65,black,sx,2.40,-.78,stairGroup); rail.rotation.x=-.50;
+}
 
 // Interior program layout.
 const interior = new THREE.Group(); scene.add(interior); interior.visible = false;
