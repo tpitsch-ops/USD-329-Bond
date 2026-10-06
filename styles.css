@@ -72,3 +72,9 @@ button{cursor:pointer}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 /* Preserve the panoramic Junior High facade instead of cropping it into the standard card ratio. */
 .jh-card .image-button img{aspect-ratio:12/5;object-fit:cover;object-position:center center}
+
+/* 3-D model interaction hardening: keep WebGL above the fallback and let touches reach the canvas. */
+.model-stage canvas{z-index:2;touch-action:none}
+.model-fallback{z-index:1;pointer-events:none}
+.model-loading{z-index:3;pointer-events:none}
+.model-stage.model-ready .model-fallback{visibility:hidden}
