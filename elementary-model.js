@@ -96,7 +96,7 @@ for(const wx of [8.1,6.0,3.9,1.8]) windowFront(wx,1.75,1.45,1.05,-1.84,campus);
 // Tan Annex with panel character and dark roof edge.
 box(5.5,3.75,4.2,tanPanel,-6.15,1.92,.55,campus);
 box(5.72,.34,4.42,charcoal,-6.15,3.90,.55,campus);
-for(const wx of [-4.55,-6.0,-7.45]) windowFront(wx,1.58,.95,.9,-1.58,campus);
+for(const wx of [-4.45,-8.0]) windowFront(wx,1.58,.95,.9,-1.58,campus);
 
 // Light-stone secure entrance / enclosed connector.
 box(4.05,2.95,2.45,stone,.55,1.50,-1.05,campus);
@@ -116,7 +116,7 @@ windowFront(-1.55,1.45,1.15,.85,-2.34,campus);
 // Black canopy columns and sign band.
 for(const px of [-1.65,2.75]) box(.15,2.65,.15,black,px,1.38,-2.80,campus);
 const sign=new THREE.Mesh(new THREE.PlaneGeometry(4.25,.68),new THREE.MeshBasicMaterial({map:signTexture('WABAUNSEE ELEMENTARY'),side:THREE.DoubleSide}));
-sign.position.set(.55,2.63,-2.64);campus.add(sign);
+sign.position.set(.55,2.63,-3.205);sign.rotation.y=Math.PI;campus.add(sign);
 
 // Glass connector continuing toward Annex.
 box(2.15,2.45,1.85,glass,-3.15,1.28,-.20,campus);
@@ -126,8 +126,8 @@ for(const gx of [-2.45,-3.15,-3.85]) box(.05,2.18,.08,black,gx,1.25,-1.15,campus
 // Charger identity on Annex.
 const logoTex=new THREE.TextureLoader().load('./assets/charger-logo.jpg');
 logoTex.colorSpace=THREE.SRGBColorSpace;
-const logo=new THREE.Mesh(new THREE.PlaneGeometry(2.05,2.05),new THREE.MeshBasicMaterial({map:logoTex,side:THREE.DoubleSide}));
-logo.position.set(-6.35,2.05,-1.59);campus.add(logo);
+const logo=new THREE.Mesh(new THREE.PlaneGeometry(2.35,2.35),new THREE.MeshBasicMaterial({map:logoTex,side:THREE.DoubleSide}));
+logo.position.set(-6.25,2.02,-1.59);logo.rotation.y=Math.PI;campus.add(logo);
 
 // Walkway, planting beds and landscape accents.
 box(3.1,.08,8.5,concrete,.45,.04,-6.4,campus);

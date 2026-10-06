@@ -193,7 +193,7 @@ function labelTexture(text, fg='#ffffff', bg='#0b2f57'){
   const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; return tex;
 }
 const sign = new THREE.Mesh(new THREE.PlaneGeometry(4.7,.82),new THREE.MeshBasicMaterial({map:labelTexture('WABAUNSEE CHARGERS • CTE'),transparent:false,side:THREE.DoubleSide}));
-sign.position.set(-6.45,2.72,-0.915); cte.add(sign);
+sign.position.set(-6.45,2.72,-0.925); sign.rotation.y=Math.PI; cte.add(sign);
 
 // Interior program layout.
 const interior = new THREE.Group(); scene.add(interior); interior.visible = false;
