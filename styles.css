@@ -72,29 +72,3 @@ button{cursor:pointer}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 /* Preserve the panoramic Junior High facade instead of cropping it into the standard card ratio. */
 .jh-card .image-button img{aspect-ratio:12/5;object-fit:cover;object-position:center center}
-
-/* 3-D model interaction hardening: keep WebGL above the fallback and let touches reach the canvas. */
-.model-stage canvas{z-index:2;touch-action:none}
-.model-fallback{z-index:1;pointer-events:none}
-.model-loading{z-index:3;pointer-events:none}
-.model-stage.model-ready .model-fallback{visibility:hidden}
-
-/* Coordinated bond-site update */
-.project-link{margin-top:1rem;width:100%}
-.concept-note{margin:.9rem 0 0;color:var(--muted);font-size:.82rem}
-.elementary-3d-section{background:#fff}
-.cte-interior-vision{margin:1.6rem 0 2rem;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(11,47,87,.06)}
-.cte-interior-image-wrap{position:relative;overflow:hidden;background:#d5d9dc}
-.cte-interior-image-wrap img{display:block;width:100%;height:auto}
-.cte-interior-image-wrap:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(180,31,45,.58) 0 19%,transparent 19% 100%),linear-gradient(to right,rgba(180,31,45,.34) 0 7%,transparent 9% 91%,rgba(180,31,45,.34) 93% 100%);mix-blend-mode:multiply}
-.cte-interior-vision figcaption{padding:1rem 1.15rem}
-.cte-interior-vision figcaption strong,.cte-interior-vision figcaption span{display:block}
-.cte-interior-vision figcaption strong{color:var(--navy);font-size:1.05rem}
-.cte-interior-vision figcaption span{margin-top:.25rem;color:var(--muted);font-size:.88rem}
-.conceptual-badge{position:absolute;right:1rem;bottom:1rem;z-index:2;background:rgba(8,30,52,.9);color:#fff;border:1px solid rgba(255,255,255,.5);padding:.42rem .65rem;border-radius:999px;font-size:.72rem;font-weight:850;letter-spacing:.03em}
-.model-controls button:focus-visible,.mode-button:focus-visible,.project-link:focus-visible{outline:3px solid #f0b323;outline-offset:2px}
-@media (max-width:620px){
-  .project-link{white-space:normal;text-align:center}
-  .conceptual-badge{right:.6rem;bottom:.6rem;font-size:.66rem}
-  .cte-interior-vision{margin-top:1rem}
-}

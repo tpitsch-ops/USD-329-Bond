@@ -38,7 +38,7 @@
   const daily = document.querySelector('#daily-cost');
   const detail = document.querySelector('#assessment-detail');
   const note = document.querySelector('#value-note');
-  const mills = 16.1;
+  const mills = 16.08;
   const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
 
   function updateNote() {
