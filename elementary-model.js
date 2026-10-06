@@ -10,7 +10,7 @@ const scene=new THREE.Scene();
 scene.background=new THREE.Color(0xdbe9f3);
 scene.fog=new THREE.Fog(0xdbe9f3,34,72);
 const camera=new THREE.PerspectiveCamera(41,1,.1,110);
-camera.position.set(15,8.5,-21);
+camera.position.set(.6,5.2,-16.5);
 
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
@@ -88,15 +88,15 @@ const ground=new THREE.Mesh(new THREE.PlaneGeometry(60,60),new THREE.MeshStandar
 ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
 
 // Existing red-brick elementary building, including light stone base.
-box(10.4,3.55,4.5,brick,-4.75,1.82,.45,campus);
-box(10.55,.65,4.58,stone,-4.75,.34,.45,campus);
-box(10.75,.36,4.72,charcoal,-4.75,3.72,.45,campus);
-for(const wx of [-8.1,-6.0,-3.9,-1.8]) windowFront(wx,1.75,1.45,1.05,-1.84,campus);
+box(10.4,3.55,4.5,brick,4.75,1.82,.45,campus);
+box(10.55,.65,4.58,stone,4.75,.34,.45,campus);
+box(10.75,.36,4.72,charcoal,4.75,3.72,.45,campus);
+for(const wx of [8.1,6.0,3.9,1.8]) windowFront(wx,1.75,1.45,1.05,-1.84,campus);
 
 // Tan Annex with panel character and dark roof edge.
-box(5.5,3.75,4.2,tanPanel,6.15,1.92,.55,campus);
-box(5.72,.34,4.42,charcoal,6.15,3.90,.55,campus);
-for(const wx of [4.55,6.0,7.45]) windowFront(wx,1.58,.95,.9,-1.58,campus);
+box(5.5,3.75,4.2,tanPanel,-6.15,1.92,.55,campus);
+box(5.72,.34,4.42,charcoal,-6.15,3.90,.55,campus);
+for(const wx of [-4.55,-6.0,-7.45]) windowFront(wx,1.58,.95,.9,-1.58,campus);
 
 // Light-stone secure entrance / enclosed connector.
 box(4.05,2.95,2.45,stone,.55,1.50,-1.05,campus);
@@ -115,27 +115,27 @@ windowFront(-1.55,1.45,1.15,.85,-2.34,campus);
 
 // Black canopy columns and sign band.
 for(const px of [-1.65,2.75]) box(.15,2.65,.15,black,px,1.38,-2.80,campus);
-const sign=new THREE.Mesh(new THREE.PlaneGeometry(4.25,.68),new THREE.MeshBasicMaterial({map:signTexture('WABAUNSEE ELEMENTARY')}));
+const sign=new THREE.Mesh(new THREE.PlaneGeometry(4.25,.68),new THREE.MeshBasicMaterial({map:signTexture('WABAUNSEE ELEMENTARY'),side:THREE.DoubleSide}));
 sign.position.set(.55,2.63,-2.64);campus.add(sign);
 
 // Glass connector continuing toward Annex.
-box(2.15,2.45,1.85,glass,3.15,1.28,-.20,campus);
-box(2.35,.28,2.08,charcoal,3.15,2.60,-.20,campus);
-for(const gx of [2.45,3.15,3.85]) box(.05,2.18,.08,black,gx,1.25,-1.15,campus);
+box(2.15,2.45,1.85,glass,-3.15,1.28,-.20,campus);
+box(2.35,.28,2.08,charcoal,-3.15,2.60,-.20,campus);
+for(const gx of [-2.45,-3.15,-3.85]) box(.05,2.18,.08,black,gx,1.25,-1.15,campus);
 
 // Charger identity on Annex.
 const logoTex=new THREE.TextureLoader().load('./assets/charger-logo.jpg');
 logoTex.colorSpace=THREE.SRGBColorSpace;
-const logo=new THREE.Mesh(new THREE.PlaneGeometry(2.05,2.05),new THREE.MeshBasicMaterial({map:logoTex}));
-logo.position.set(6.35,2.05,-1.59);campus.add(logo);
+const logo=new THREE.Mesh(new THREE.PlaneGeometry(2.05,2.05),new THREE.MeshBasicMaterial({map:logoTex,side:THREE.DoubleSide}));
+logo.position.set(-6.35,2.05,-1.59);campus.add(logo);
 
 // Walkway, planting beds and landscape accents.
 box(3.1,.08,8.5,concrete,.45,.04,-6.4,campus);
 box(15,.07,1.1,concrete,.35,.035,-3.30,campus);
-for(const bx of [-8.4,-7.2,-5.9,-4.7,-3.5,-2.3]){
+for(const bx of [8.4,7.2,5.9,4.7,3.5,2.3]){
   const bush=new THREE.Mesh(new THREE.SphereGeometry(.34,16,10),green);bush.scale.set(1.25,.8,.8);bush.position.set(bx,.33,-2.25);bush.castShadow=true;campus.add(bush);
 }
-for(const bx of [4.25,5.15,7.65,8.35]){
+for(const bx of [-4.25,-5.15,-7.65,-8.35]){
   const bush=new THREE.Mesh(new THREE.SphereGeometry(.28,16,10),green);bush.scale.set(1.2,.75,.75);bush.position.set(bx,.28,-2.00);bush.castShadow=true;campus.add(bush);
 }
 
@@ -144,7 +144,7 @@ const views={
   connection:{p:[-10.5,6.5,-10],t:[1.2,1.45,-.25]},
   campus:{p:[18,12,-23],t:[.4,1.5,.1]},
   side:{p:[18,6,-4],t:[1.0,1.5,.2]},
-  reset:{p:[15,8.5,-21],t:[.2,1.6,-.4]}
+  reset:{p:[.6,5.2,-16.5],t:[.6,1.55,-1.0]}
 };
 function applyView(name){const v=views[name]||views.reset;camera.position.set(...v.p);controls.target.set(...v.t);controls.update();}
 document.querySelectorAll('[data-elementary-view]').forEach(btn=>btn.addEventListener('click',()=>applyView(btn.dataset.elementaryView)));
