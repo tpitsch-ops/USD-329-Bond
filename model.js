@@ -219,6 +219,7 @@ function facadePlane(path,w,h,x,y,z,transparent=true){
   const mat=new THREE.MeshBasicMaterial({map:tex,transparent,alphaTest:transparent?0.03:0,side:THREE.DoubleSide,depthWrite:true});
   const p=new THREE.Mesh(new THREE.PlaneGeometry(w,h),mat);
   p.position.set(x,y,z);
+  p.rotation.y=Math.PI;
   p.castShadow=false; p.receiveShadow=false;
   scene.add(p);
   return p;

@@ -81,7 +81,7 @@ box(4.05,3.05,3.55,stone,1.08,1.54,-.15,campus);
 box(4.35,.30,3.82,charcoal,1.08,3.10,-.15,campus);
 
 // Project the polished concept entrance directly onto the connector's public face.
-plane('./assets/wes-entry-concept.jpg',4.00,2.68,1.08,1.52,-1.945,0,false,campus);
+plane('./assets/wes-entry-concept.jpg',4.00,2.68,1.08,1.52,-1.945,Math.PI,false,campus);
 
 // Add depth behind the concept façade: glass side walls and visitor/reception area.
 box(.08,2.45,2.65,glass,-.91,1.38,-.10,campus);
