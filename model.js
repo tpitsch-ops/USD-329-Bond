@@ -104,45 +104,30 @@ box(.95,.9,.12,glass,3.35,4.0,-1.42,school);
 // Side windows on west end.
 for (const y of windowYs) box(.12,.78,.92,glass,-2.77,y,.2,school);
 
-// South-end approximation based on the southeast-corner photo.
-// Add a tall chimney, a lower attached wing, and a more articulated end-wall window pattern
-// so the high school reads closer to the real building when viewed from the south/southeast.
-box(0.72,6.9,0.72,stoneDark,8.95,3.45,2.8,school); // chimney/tower
-box(2.55,3.45,1.68,stone,7.6,1.74,2.26,school); // lower attached wing
-box(2.68,.32,1.82,roofRed,7.6,3.56,2.26,school);
-box(0.14,0.92,0.82,glass,9.44,1.35,1.1,school); // south/end windows
-box(0.14,0.92,0.82,glass,9.44,2.45,1.85,school);
-box(0.14,1.05,0.68,glass,9.44,4.35,1.1,school); // narrow upper slit
-box(0.14,1.2,1.45,glass,9.44,1.2,2.5,school); // lower wing opening
-
-// CTE building — attached directly to the west side of WHS.
-// Massing correction: make the north and south ends flush with the old high school
-// instead of letting the CTE block run long on either end.
+// CTE building — near-square, attached directly to the west side of WHS.
 const cte = new THREE.Group();
 scene.add(cte);
 const redMetal = new THREE.MeshStandardMaterial({ color: 0xb41f2d, roughness: .78, metalness: .16 });
 const redMetalCut = redMetal.clone(); redMetalCut.transparent = true; redMetalCut.opacity = .28; redMetalCut.depthWrite = false;
 const cteRoofMat = new THREE.MeshStandardMaterial({ color: 0x5d2528, roughness: .8, metalness: .12 });
-const cteDepth = 4.0;
-const cteZ = 1.1;
-const cteFloor = box(6.7,.18,cteDepth,new THREE.MeshStandardMaterial({color:0xc4c5c2,roughness:1}),-6.1,.1,cteZ,cte);
-const wallNorth = box(6.7,3.15,.18,redMetal,-6.1,1.67,-0.81,cte);
-const wallSouth = box(6.7,3.15,.18,redMetal,-6.1,1.67,3.01,cte);
-const wallWest = box(.18,3.15,cteDepth,redMetal,-9.36,1.67,cteZ,cte);
-const wallEast = box(.18,3.15,cteDepth,redMetal,-2.84,1.67,cteZ,cte);
-const cteRoof = box(6.95,.3,4.25,cteRoofMat,-6.1,3.37,cteZ,cte);
+const cteFloor = box(6.7,.18,6.45,new THREE.MeshStandardMaterial({color:0xc4c5c2,roughness:1}),-6.1,.1,1.35,cte);
+const wallNorth = box(6.7,3.15,.18,redMetal,-6.1,1.67,-1.78,cte);
+const wallSouth = box(6.7,3.15,.18,redMetal,-6.1,1.67,4.48,cte);
+const wallWest = box(.18,3.15,6.45,redMetal,-9.36,1.67,1.35,cte);
+const wallEast = box(.18,3.15,6.45,redMetal,-2.84,1.67,1.35,cte);
+const cteRoof = box(6.95,.3,6.7,cteRoofMat,-6.1,3.37,1.35,cte);
 
 // Overhead doors north and south.
 const doorMat = new THREE.MeshStandardMaterial({ color:0xe7e7df,roughness:.65,metalness:.08 });
-box(2.4,2.25,.14,doorMat,-7.25,1.2,-0.93,cte);
-box(2.4,2.25,.14,doorMat,-7.25,1.2,3.13,cte);
+box(2.4,2.25,.14,doorMat,-7.25,1.2,-1.9,cte);
+box(2.4,2.25,.14,doorMat,-7.25,1.2,4.6,cte);
 for (let i=0;i<5;i++){
-  box(2.25,.025,.16,black,-7.25,.45+i*.42,-1.02,cte);
-  box(2.25,.025,.16,black,-7.25,.45+i*.42,3.22,cte);
+  box(2.25,.025,.16,black,-7.25,.45+i*.42,-1.99,cte);
+  box(2.25,.025,.16,black,-7.25,.45+i*.42,4.69,cte);
 }
 // Personnel door and windows toward school connector.
-box(.9,1.9,.13,glass,-3.9,1.05,-0.93,cte);
-box(1.4,.8,.13,glass,-5.0,1.8,-0.93,cte);
+box(.9,1.9,.13,glass,-3.9,1.05,-1.9,cte);
+box(1.4,.8,.13,glass,-5.0,1.8,-1.9,cte);
 
 function labelTexture(text, fg='#ffffff', bg='#0b2f57'){
   const c=document.createElement('canvas'); c.width=1024; c.height=180;
@@ -157,10 +142,10 @@ sign.position.set(-6.1,2.72,-1.885); cte.add(sign);
 const interior = new THREE.Group(); scene.add(interior); interior.visible = false;
 const labColors = [0x6f7d8a,0x3e7196,0x8a735c,0x775a86];
 const labs = [
-  {name:'WELDING / CONSTRUCTION AG',x:-7.72,z:0.05,w:3.0,d:1.5,c:labColors[0]},
-  {name:'ELECTRICAL',x:-4.5,z:0.05,w:3.0,d:1.5,c:labColors[1]},
-  {name:'PLUMBING',x:-7.72,z:2.15,w:3.0,d:1.5,c:labColors[2]},
-  {name:'DIGITAL ARTS / SCREEN PRINT / AUTOCAD',x:-4.5,z:2.15,w:3.0,d:1.5,c:labColors[3]}
+  {name:'WELDING / CONSTRUCTION AG',x:-7.72,z:.2,w:3.0,d:3.0,c:labColors[0]},
+  {name:'ELECTRICAL',x:-4.5,z:.2,w:3.0,d:3.0,c:labColors[1]},
+  {name:'PLUMBING',x:-7.72,z:3.1,w:3.0,d:2.45,c:labColors[2]},
+  {name:'DIGITAL ARTS / SCREEN PRINT / AUTOCAD',x:-4.5,z:3.1,w:3.0,d:2.45,c:labColors[3]}
 ];
 for (const lab of labs){
   box(lab.w,.08,lab.d,new THREE.MeshStandardMaterial({color:lab.c,roughness:1}),lab.x,.22,lab.z,interior);
@@ -169,16 +154,16 @@ for (const lab of labs){
 }
 // Partition walls and central circulation.
 const partition = new THREE.MeshStandardMaterial({color:0xe4e0d6,roughness:1,transparent:true,opacity:.88});
-box(.10,1.65,3.35,partition,-6.12,1.05,1.1,interior);
-box(6.0,1.65,.10,partition,-6.1,1.05,1.1,interior);
-box(.8,.06,3.55,new THREE.MeshStandardMaterial({color:0xd9c64a,roughness:1}),-6.1,.28,1.1,interior);
+box(.10,1.65,5.6,partition,-6.12,1.05,1.55,interior);
+box(6.0,1.65,.10,partition,-6.1,1.05,1.62,interior);
+box(.8,.06,5.9,new THREE.MeshStandardMaterial({color:0xd9c64a,roughness:1}),-6.1,.28,1.35,interior);
 
 // Direct WHS-to-CTE connection.
 // The two building masses already meet at the west wall of WHS, so do not add a
 // separate tan connector volume here. The earlier connector box projected beyond
 // the clean WHS facade and read as an unintended beige extension. A thin, flush
 // glazed doorway marks the connection without changing the school silhouette.
-box(.055,1.92,1.0,glass,-2.745,1.04,1.1,scene);
+box(.055,1.92,1.15,glass,-2.745,1.04,1.2,scene);
 
 // Light parking stripes.
 const stripeMat = new THREE.MeshBasicMaterial({color:0xf4f4ef});
@@ -205,7 +190,7 @@ const views = {
   front:{p:[1.5,8,-23],t:[-.7,2,1]},
   north:{p:[-1.5,7,-21],t:[-1.2,2,1]},
   west:{p:[18,7,-12],t:[2.3,2,.8]},
-  south:{p:[16,7,10],t:[8.55,2.2,1.9]},
+  south:{p:[-6,7,20],t:[-5.6,1.6,1.4]},
   campus:{p:[18,16,-25],t:[-1.3,1.8,1.2]},
   approach:{p:[3.4,3.8,-13],t:[3.35,1.8,-.5]},
   reset:{p:[18,14,-24],t:[0,2,.5]}
