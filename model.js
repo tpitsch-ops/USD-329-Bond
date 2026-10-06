@@ -104,20 +104,9 @@ box(.95,.9,.12,glass,3.35,4.0,-1.42,school);
 // Side windows on west end.
 for (const y of windowYs) box(.12,.78,.92,glass,-2.77,y,.2,school);
 
-// South-end approximation based on the southeast-corner photo.
-// Add a tall chimney, a lower attached wing, and a more articulated end-wall window pattern
-// so the high school reads closer to the real building when viewed from the south/southeast.
-box(0.72,6.9,0.72,stoneDark,8.95,3.45,2.8,school); // chimney/tower
-box(2.55,3.45,1.68,stone,7.6,1.74,2.26,school); // lower attached wing
-box(2.68,.32,1.82,roofRed,7.6,3.56,2.26,school);
-box(0.14,0.92,0.82,glass,9.44,1.35,1.1,school); // south/end windows
-box(0.14,0.92,0.82,glass,9.44,2.45,1.85,school);
-box(0.14,1.05,0.68,glass,9.44,4.35,1.1,school); // narrow upper slit
-box(0.14,1.2,1.45,glass,9.44,1.2,2.5,school); // lower wing opening
-
 // CTE building — attached directly to the west side of WHS.
-// Massing correction: make the north and south ends flush with the old high school
-// instead of letting the CTE block run long on either end.
+// Controlled rebuild from the last clean model: preserve the approved WHS silhouette
+// and align the CTE north/south ends with the existing high-school footprint.
 const cte = new THREE.Group();
 scene.add(cte);
 const redMetal = new THREE.MeshStandardMaterial({ color: 0xb41f2d, roughness: .78, metalness: .16 });
@@ -132,7 +121,7 @@ const wallWest = box(.18,3.15,cteDepth,redMetal,-9.36,1.67,cteZ,cte);
 const wallEast = box(.18,3.15,cteDepth,redMetal,-2.84,1.67,cteZ,cte);
 const cteRoof = box(6.95,.3,4.25,cteRoofMat,-6.1,3.37,cteZ,cte);
 
-// Overhead doors north and south.
+// Overhead doors stay centered on the aligned north and south faces.
 const doorMat = new THREE.MeshStandardMaterial({ color:0xe7e7df,roughness:.65,metalness:.08 });
 box(2.4,2.25,.14,doorMat,-7.25,1.2,-0.93,cte);
 box(2.4,2.25,.14,doorMat,-7.25,1.2,3.13,cte);
@@ -140,7 +129,7 @@ for (let i=0;i<5;i++){
   box(2.25,.025,.16,black,-7.25,.45+i*.42,-1.02,cte);
   box(2.25,.025,.16,black,-7.25,.45+i*.42,3.22,cte);
 }
-// Personnel door and windows toward school connector.
+// Personnel door and windows toward the school connection.
 box(.9,1.9,.13,glass,-3.9,1.05,-0.93,cte);
 box(1.4,.8,.13,glass,-5.0,1.8,-0.93,cte);
 
@@ -151,7 +140,7 @@ function labelTexture(text, fg='#ffffff', bg='#0b2f57'){
   const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; return tex;
 }
 const sign = new THREE.Mesh(new THREE.PlaneGeometry(4.7,.82),new THREE.MeshBasicMaterial({map:labelTexture('WABAUNSEE CHARGERS • CTE'),transparent:false}));
-sign.position.set(-6.1,2.72,-1.885); cte.add(sign);
+sign.position.set(-6.1,2.72,-0.915); cte.add(sign);
 
 // Interior program layout.
 const interior = new THREE.Group(); scene.add(interior); interior.visible = false;
@@ -205,7 +194,7 @@ const views = {
   front:{p:[1.5,8,-23],t:[-.7,2,1]},
   north:{p:[-1.5,7,-21],t:[-1.2,2,1]},
   west:{p:[18,7,-12],t:[2.3,2,.8]},
-  south:{p:[16,7,10],t:[8.55,2.2,1.9]},
+  south:{p:[-6,7,20],t:[-5.6,1.6,1.4]},
   campus:{p:[18,16,-25],t:[-1.3,1.8,1.2]},
   approach:{p:[3.4,3.8,-13],t:[3.35,1.8,-.5]},
   reset:{p:[18,14,-24],t:[0,2,.5]}
