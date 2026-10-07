@@ -70,3 +70,12 @@ button{cursor:pointer}
 @media (max-width:900px){.site-links{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;padding:1rem 1.25rem;border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start}.site-links.open{display:flex}.menu-button{display:block}.hero{min-height:690px}.hero-overlay{background:linear-gradient(90deg,rgba(4,25,49,.92),rgba(4,25,49,.62)),linear-gradient(0deg,rgba(4,25,49,.85),transparent)}.hero-meta{grid-template-columns:1fr 1fr}.split-heading{grid-template-columns:1fr;gap:.5rem}.three-up,.program-grid{grid-template-columns:1fr 1fr}.wide-card{grid-template-columns:1fr}.tax-layout,.accountability-grid{grid-template-columns:1fr}.model-stage{min-height:520px}.footer-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){.page-width{width:min(calc(100% - 1.25rem),var(--max))}.hero{min-height:730px}.hero-content{padding:4.5rem 0 2.2rem}.hero h1{font-size:2.85rem}.hero p{font-size:1.04rem}.hero-meta{grid-template-columns:1fr 1fr}.hero-meta>div{padding:.85rem .65rem .85rem 0}.section{padding:4rem 0}.three-up,.project-grid,.program-grid,.model-context-grid,.footer-grid{grid-template-columns:1fr}.wide-card{grid-column:auto}.compare-grid{grid-template-columns:1fr 1fr;min-height:220px}.model-topbar{align-items:flex-start;flex-direction:column}.model-stage{min-height:430px}.segmented{width:100%}.segmented button{flex:1}.result-primary strong{font-size:3.6rem}.footer-grid{gap:1.4rem}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+/* Restored pre-block-model CTE concept presentation */
+.legacy-cte-concept{margin:1.6rem 0 2rem;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 12px 34px rgba(8,30,52,.08)}
+.legacy-cte-image{display:block;width:100%;padding:0;border:0;background:#eef3f6;cursor:zoom-in}
+.legacy-cte-image img{display:block;width:100%;height:auto;max-height:760px;object-fit:contain}
+.legacy-cte-concept figcaption{padding:1rem 1.15rem 1.15rem}
+.legacy-cte-concept figcaption strong,.legacy-cte-concept figcaption span{display:block}
+.legacy-cte-concept figcaption strong{color:var(--navy);font-size:1.05rem}
+.legacy-cte-concept figcaption span{margin-top:.3rem;color:var(--muted);font-size:.88rem;line-height:1.5}
+@media (max-width:620px){.legacy-cte-concept{border-radius:14px}.legacy-cte-concept figcaption{padding:.85rem .9rem 1rem}}
