@@ -1,5 +1,5 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import * as THREE from './vendor/three.module.js';
+import { OrbitControls } from './vendor/OrbitControls.js';
 
 const stage = document.querySelector('#model-stage');
 const canvas = document.querySelector('#cte-canvas');
@@ -78,8 +78,9 @@ function box(w,h,d,mat,x,y,z,parent=scene){
 
 // Clean, continuous high-school massing. No stray left-side extrusion.
 box(12.2,4.9,4.0,stone,3.35,2.48,1.1,school);
-box(12.65,.56,4.35,roofRed,3.35,5.18,1.1,school);
-box(12.35,.26,4.15,roofRed,3.35,4.82,1.1,school);
+// Roof correction: extend the existing roof over the full right-side building mass.
+box(13.85,.56,4.45,roofRed,3.92,5.18,1.1,school);
+box(13.55,.26,4.30,roofRed,3.82,4.82,1.1,school);
 
 // Central entrance tower and architectural details.
 box(2.15,5.35,.48,stoneDark,3.35,2.72,-1.14,school);
@@ -104,30 +105,32 @@ box(.95,.9,.12,glass,3.35,4.0,-1.42,school);
 // Side windows on west end.
 for (const y of windowYs) box(.12,.78,.92,glass,-2.77,y,.2,school);
 
-// CTE building — near-square, attached directly to the west side of WHS.
+// CTE building — substantial attached facility extending across the high-school elevation.
+// The conceptual vision is the primary reference for CTE scale and proportion.
 const cte = new THREE.Group();
 scene.add(cte);
-const redMetal = new THREE.MeshStandardMaterial({ color: 0xb41f2d, roughness: .78, metalness: .16 });
-const redMetalCut = redMetal.clone(); redMetalCut.transparent = true; redMetalCut.opacity = .28; redMetalCut.depthWrite = false;
-const cteRoofMat = new THREE.MeshStandardMaterial({ color: 0x5d2528, roughness: .8, metalness: .12 });
-const cteFloor = box(6.7,.18,6.45,new THREE.MeshStandardMaterial({color:0xc4c5c2,roughness:1}),-6.1,.1,1.35,cte);
-const wallNorth = box(6.7,3.15,.18,redMetal,-6.1,1.67,-1.78,cte);
-const wallSouth = box(6.7,3.15,.18,redMetal,-6.1,1.67,4.48,cte);
-const wallWest = box(.18,3.15,6.45,redMetal,-9.36,1.67,1.35,cte);
-const wallEast = box(.18,3.15,6.45,redMetal,-2.84,1.67,1.35,cte);
-const cteRoof = box(6.95,.3,6.7,cteRoofMat,-6.1,3.37,1.35,cte);
+const redMetal = new THREE.MeshStandardMaterial({ color: 0xb41f2d, roughness: .76, metalness: .18 });
+const redMetalCut = redMetal.clone(); redMetalCut.transparent = true; redMetalCut.opacity = .30; redMetalCut.depthWrite = false;
+const cteRoofMat = new THREE.MeshStandardMaterial({ color: 0x7a252b, roughness: .80, metalness: .12 });
+const cteWidth = 11.4;
+const cteDepth = 4.2;
+const cteX = 3.15;
+const cteZ = -3.0;
+const cteFloor = box(cteWidth,.18,cteDepth,new THREE.MeshStandardMaterial({color:0xc4c5c2,roughness:1}),cteX,.1,cteZ,cte);
+const wallNorth = box(cteWidth,3.15,.18,redMetal,cteX,1.67,-5.01,cte);
+const wallSouth = box(cteWidth,3.15,.18,redMetal,cteX,1.67,-.99,cte);
+const wallWest = box(.18,3.15,cteDepth,redMetal,-2.46,1.67,cteZ,cte);
+const wallEast = box(.18,3.15,cteDepth,redMetal,8.76,1.67,cteZ,cte);
+const cteRoof = box(11.65,.3,4.45,cteRoofMat,cteX,3.37,cteZ,cte);
 
-// Overhead doors north and south.
+// Large overhead door and glazed instructional/entry openings on the public-facing elevation.
 const doorMat = new THREE.MeshStandardMaterial({ color:0xe7e7df,roughness:.65,metalness:.08 });
-box(2.4,2.25,.14,doorMat,-7.25,1.2,-1.9,cte);
-box(2.4,2.25,.14,doorMat,-7.25,1.2,4.6,cte);
-for (let i=0;i<5;i++){
-  box(2.25,.025,.16,black,-7.25,.45+i*.42,-1.99,cte);
-  box(2.25,.025,.16,black,-7.25,.45+i*.42,4.69,cte);
-}
-// Personnel door and windows toward school connector.
-box(.9,1.9,.13,glass,-3.9,1.05,-1.9,cte);
-box(1.4,.8,.13,glass,-5.0,1.8,-1.9,cte);
+box(2.75,2.25,.14,doorMat,-.65,1.2,-5.13,cte);
+for (let i=0;i<5;i++) box(2.58,.025,.16,black,-.65,.45+i*.42,-5.22,cte);
+box(1.05,1.95,.13,glass,6.95,1.05,-5.13,cte);
+box(1.65,.92,.13,glass,5.25,1.85,-5.13,cte);
+box(1.65,.92,.13,glass,3.25,1.85,-5.13,cte);
+box(1.65,.92,.13,glass,1.25,1.85,-5.13,cte);
 
 function labelTexture(text, fg='#ffffff', bg='#0b2f57'){
   const c=document.createElement('canvas'); c.width=1024; c.height=180;
@@ -135,35 +138,31 @@ function labelTexture(text, fg='#ffffff', bg='#0b2f57'){
   ctx.fillStyle=fg; ctx.font='900 62px Arial'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(text,c.width/2,c.height/2);
   const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; return tex;
 }
-const sign = new THREE.Mesh(new THREE.PlaneGeometry(4.7,.82),new THREE.MeshBasicMaterial({map:labelTexture('WABAUNSEE CHARGERS • CTE'),transparent:false}));
-sign.position.set(-6.1,2.72,-1.885); cte.add(sign);
+const sign = new THREE.Mesh(new THREE.PlaneGeometry(5.1,.82),new THREE.MeshBasicMaterial({map:labelTexture('WABAUNSEE CHARGERS • CTE'),transparent:false}));
+sign.position.set(3.25,2.72,-5.115); cte.add(sign);
 
 // Interior program layout.
 const interior = new THREE.Group(); scene.add(interior); interior.visible = false;
 const labColors = [0x6f7d8a,0x3e7196,0x8a735c,0x775a86];
 const labs = [
-  {name:'WELDING / CONSTRUCTION AG',x:-7.72,z:.2,w:3.0,d:3.0,c:labColors[0]},
-  {name:'ELECTRICAL',x:-4.5,z:.2,w:3.0,d:3.0,c:labColors[1]},
-  {name:'PLUMBING',x:-7.72,z:3.1,w:3.0,d:2.45,c:labColors[2]},
-  {name:'DIGITAL ARTS / SCREEN PRINT / AUTOCAD',x:-4.5,z:3.1,w:3.0,d:2.45,c:labColors[3]}
+  {name:'WELDING / CONSTRUCTION AG',x:-.35,z:-3.95,w:4.0,d:1.65,c:labColors[0]},
+  {name:'PLUMBING',x:-.35,z:-2.10,w:4.0,d:1.55,c:labColors[2]},
+  {name:'DIGITAL ARTS / SCREEN PRINT / AUTOCAD',x:5.55,z:-3.95,w:4.25,d:1.65,c:labColors[3]},
+  {name:'ELECTRICAL',x:5.55,z:-2.10,w:4.25,d:1.55,c:labColors[1]}
 ];
 for (const lab of labs){
   box(lab.w,.08,lab.d,new THREE.MeshStandardMaterial({color:lab.c,roughness:1}),lab.x,.22,lab.z,interior);
   const mat = new THREE.SpriteMaterial({ map: labelTexture(lab.name,'#ffffff','#17324f'), transparent:true });
-  const sprite = new THREE.Sprite(mat); sprite.scale.set(2.75,.48,1); sprite.position.set(lab.x,1.05,lab.z); interior.add(sprite);
+  const sprite = new THREE.Sprite(mat); sprite.scale.set(Math.min(lab.w*0.82,3.7),.48,1); sprite.position.set(lab.x,1.05,lab.z); interior.add(sprite);
 }
-// Partition walls and central circulation.
+// Partition walls and a clear central circulation spine.
 const partition = new THREE.MeshStandardMaterial({color:0xe4e0d6,roughness:1,transparent:true,opacity:.88});
-box(.10,1.65,5.6,partition,-6.12,1.05,1.55,interior);
-box(6.0,1.65,.10,partition,-6.1,1.05,1.62,interior);
-box(.8,.06,5.9,new THREE.MeshStandardMaterial({color:0xd9c64a,roughness:1}),-6.1,.28,1.35,interior);
+box(.10,1.65,3.65,partition,2.55,1.05,-3.0,interior);
+box(10.55,1.65,.10,partition,3.15,1.05,-3.02,interior);
+box(.85,.06,3.55,new THREE.MeshStandardMaterial({color:0xd9c64a,roughness:1}),2.55,.28,-3.0,interior);
 
-// Direct WHS-to-CTE connection.
-// The two building masses already meet at the west wall of WHS, so do not add a
-// separate tan connector volume here. The earlier connector box projected beyond
-// the clean WHS facade and read as an unintended beige extension. A thin, flush
-// glazed doorway marks the connection without changing the school silhouette.
-box(.055,1.92,1.15,glass,-2.745,1.04,1.2,scene);
+// Direct WHS-to-CTE connection at the existing high-school elevation.
+box(1.20,1.92,.055,glass,3.35,1.04,-.915,scene);
 
 // Light parking stripes.
 const stripeMat = new THREE.MeshBasicMaterial({color:0xf4f4ef});
@@ -187,13 +186,13 @@ function setInteriorMode(on){
 document.querySelectorAll('.mode-button').forEach(btn=>btn.addEventListener('click',()=>setInteriorMode(btn.dataset.mode==='interior')));
 
 const views = {
-  front:{p:[1.5,8,-23],t:[-.7,2,1]},
-  north:{p:[-1.5,7,-21],t:[-1.2,2,1]},
-  west:{p:[18,7,-12],t:[2.3,2,.8]},
-  south:{p:[-6,7,20],t:[-5.6,1.6,1.4]},
-  campus:{p:[18,16,-25],t:[-1.3,1.8,1.2]},
-  approach:{p:[3.4,3.8,-13],t:[3.35,1.8,-.5]},
-  reset:{p:[18,14,-24],t:[0,2,.5]}
+  front:{p:[3.1,8.2,-28],t:[3.1,2.1,-1.8]},
+  north:{p:[-2.5,7.8,-25],t:[2.5,2.0,-2.0]},
+  west:{p:[18,7.5,-16],t:[2.6,2.0,-1.4]},
+  south:{p:[3.0,8.2,20],t:[3.2,2.0,-1.2]},
+  campus:{p:[20,17,-29],t:[2.6,1.8,-1.5]},
+  approach:{p:[7.2,4.2,-15],t:[4.2,1.8,-3.1]},
+  reset:{p:[19,14,-27],t:[2.5,2,-1.2]}
 };
 function applyView(name){
   const view=views[name]||views.reset;
@@ -214,4 +213,8 @@ const ro=new ResizeObserver(resize); ro.observe(stage); resize();
 
 stage.classList.add('model-ready');
 if (loading) loading.textContent='';
-renderer.setAnimationLoop(()=>{ controls.update(); renderer.render(scene,camera); });
+let modelVisible = true;
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(entries => { modelVisible = entries[0]?.isIntersecting ?? true; }, {rootMargin:'240px'}).observe(stage);
+}
+renderer.setAnimationLoop(()=>{ if (!modelVisible) return; controls.update(); renderer.render(scene,camera); });
